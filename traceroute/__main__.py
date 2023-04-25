@@ -1,9 +1,11 @@
 import argparse
-from traceroute import trace_udp
+from .traceroute import trace_udp, trace_icmp
 
 
 def main() -> int:
-    host = None
+    import logging
+    logging.getLogger("scapy").setLevel(logging.WARNING)
+    
     epilog = """See also RFC2151 section 3.4 for a quick
                 read-up on traceroute."""
     parser = argparse.ArgumentParser(
@@ -17,7 +19,9 @@ def main() -> int:
                 which is the destination of the route.""")
     parser.add_argument('packet_length', metavar='packet_length', \
         nargs='?', default=2, \
-        help="""size of the UDP packet to be sent.""")
+        help="""size of the UDP packet to be sent.
+                Note that this option has no effect in ICMP
+                mode.""")
     parser.add_argument('-m', '--maxttl', '--max-hops', \
                         default=30, \
         help="""maximum allowable TTL value, measured as
@@ -31,27 +35,28 @@ def main() -> int:
                 (default = 1)""")
     parser.add_argument('-q', '--fleetsize', \
                         default=3, \
-        help="""number of UDP packets that will be sent
-                with each time-to-live setting.
+        help="""number of packets that will be sent
+                with each time-to-live setting ("fleet size").
                 (default = 3)""")
     parser.add_argument('-w', '--timeout', \
                         default=5, \
         help="""amount of time, in seconds, to wait for
                 an answer from a particular router before
                 giving up.
-                #TODO: MAX, HERE, NEAR not supported yet.
                 (default = 5)""")
     parser.add_argument('-p', '-P', '--port', \
                         default=33434, \
         help="""destination port (invalid) at the remote
                 host.
+                Note that this option will have no effect in 
+                ICMP mode. 
                 (default = 33434)""")
     parser.add_argument('-s', '--source', \
                         default=None, \
         help="""source address of outgoing packets.
                 (default is address of adapter used)""")
     parser.add_argument('-M', '--module', \
-                        default='UDP', choices=['UDP'], \
+                        default='UDP', choices=['UDP', 'ICMP'], \
         help="""module (or method) for traceroute
                 operations.
                 (default = UDP)""")
@@ -59,6 +64,7 @@ def main() -> int:
 
     match args.module:
         case 'UDP':
+            print()
             trace_udp(args.remote_host,
                 udp_length=int(args.packet_length),
                 min_ttl=int(args.minttl),
@@ -66,9 +72,17 @@ def main() -> int:
                 num_per_fleet=int(args.fleetsize),
                 timeout=int(args.timeout),
                 port=int(args.port),
-                source=str(args.source))
+                source=args.source)
         case 'ICMP':
-            print("ICMP mode is not supported yet.") # TODO
+            print("Note: ICMP mode is experimental.")
+            print()
+            trace_icmp(args.remote_host,
+                min_ttl=int(args.minttl),
+                max_ttl=int(args.maxttl),
+                num_per_fleet=int(args.fleetsize),
+                timeout=int(args.timeout),
+                port=int(args.port),
+                source=args.source)
         case _:
             print('Module ' + args.module + ' is not supported.')
 
