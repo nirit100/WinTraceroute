@@ -10,9 +10,9 @@ def main() -> int:
                 read-up on traceroute."""
     parser = argparse.ArgumentParser(
                     prog='traceroute',
-                    description="""Provides a mostly *NIX traceroute
-                    compliant -- but very basic -- tracert/traceroute
-                    IPv4 alternative built on scapy.""",
+                    description="""Provides a mostly *NIX-traceroute-
+                    like -- but very basic -- tracert/traceroute IPv4
+                    alternative built on scapy.""",
                     epilog=epilog)
     parser.add_argument('remote_host', metavar='host', \
         help="""IP address or host name of the remote host
