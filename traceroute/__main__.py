@@ -1,11 +1,11 @@
 import argparse
-from .traceroute import trace_udp, trace_icmp
+from traceroute.traceroute import trace_udp, trace_icmp
 
 
 def main() -> int:
     import logging
     logging.getLogger("scapy").setLevel(logging.WARNING)
-    
+
     epilog = """See also RFC2151 section 3.4 for a quick
                 read-up on traceroute."""
     parser = argparse.ArgumentParser(
@@ -48,8 +48,8 @@ def main() -> int:
                         default=33434, \
         help="""destination port (invalid) at the remote
                 host.
-                Note that this option will have no effect in 
-                ICMP mode. 
+                Note that this option will have no effect in
+                ICMP mode.
                 (default = 33434)""")
     parser.add_argument('-s', '--source', \
                         default=None, \
