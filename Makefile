@@ -1,12 +1,21 @@
 dist:
 	mkdir dist
 
-clean:  dist
+_dist_out:
+	mkdir -f _dist_out
+	mkdir -f _dist_out/win
+	mkdir -f _dist_out/lnx
+
+
+clean:	dist _dist_out/
 	rm -f dist/*
 	rm -rf logs/
 
-build:	clean
-	python3 -m build
 
-upload:	
-	twine upload dist/* --verbose
+build_lnx:	clean
+	pyinstaller -c --clean --onefile traceroute/__main__.py
+	cp -f -T "dist/__main__" "_dist_out/lnx/wintraceroute"
+
+build_win:	clean
+	pyinstaller -c --clean --uac-admin --onefile traceroute/__main__.py
+	cp -f -T "dist/__main__.exe" "_dist_out/win/wintraceroute.exe"
