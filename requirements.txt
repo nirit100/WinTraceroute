@@ -1,0 +1,4 @@
+setuptools>=61.0.0
+wheel
+bumpver
+scapy==2.5.0
