@@ -18,7 +18,7 @@ jobs:
       run:  make spec-remove-hooksconfig
 
     - name: Package Application for Windows
-      uses: JackMcKew/pyinstaller-action-windows@main
+      uses: NiRit100/pyinstaller-action-windows@0.1.1-a
       with:
         path: .
 
