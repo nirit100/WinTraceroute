@@ -7,7 +7,7 @@ _dist_out:
 	mkdir -f _dist_out/lnx
 
 
-clean:	dist _dist_out/
+clean:	dist _dist_out
 	rm -f dist/*
 	rm -rf logs/
 
