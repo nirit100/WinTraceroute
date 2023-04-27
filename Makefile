@@ -2,9 +2,8 @@ dist:
 	mkdir dist
 
 _dist_out:
-	mkdir -f _dist_out
-	mkdir -f _dist_out/win
-	mkdir -f _dist_out/lnx
+	mkdir -p _dist_out/win
+	mkdir -p _dist_out/lnx
 
 
 clean:	dist _dist_out
