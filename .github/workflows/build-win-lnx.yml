@@ -23,10 +23,15 @@ jobs:
       with:
         path: .
 
+    - run: |
+        make _dist_out
+        cp -t "_dist_out/win/" "dist/windows/"*
+        mv "_dist_out/win/__main__.exe" "_dist_out/win/wintraceroute.exe"
+
     - uses: actions/upload-artifact@v2
       with:
         name: Windows Standalone Binary
-        path: ./dist/windows
+        path: ./_dist_out/win/
 
   build-lnx:
 
