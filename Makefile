@@ -7,7 +7,7 @@ _dist_out:
 
 
 clean:	dist _dist_out
-	rm -rf dist/*
+	sudo rm -rf dist/*
 	rm -rf logs/
 
 

@@ -29,7 +29,7 @@ jobs:
 
     - name: Package Application for Linux
       run: |
-        make clean
+        make _dist_out
         make build_lnx
 
     - uses: actions/upload-artifact@v2
