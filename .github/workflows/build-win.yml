@@ -14,12 +14,23 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Package Application
+    - name: remove 'hooksconfig' from .spec
+      run:  make spec-remove-hooksconfig
+
+    - name: Package Application for Windows
       uses: JackMcKew/pyinstaller-action-windows@main
       with:
         path: .
 
     - uses: actions/upload-artifact@v2
       with:
-        name: Windows Standalone
+        name: Windows Standalone Binary
         path: src/dist/windows
+
+    - name: Package Application for Linux
+      run:  make build_lnx
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: Linux Binary
+        path: _dist_out/lnx/
