@@ -25,12 +25,14 @@ jobs:
     - uses: actions/upload-artifact@v2
       with:
         name: Windows Standalone Binary
-        path: src/dist/windows
+        path: ./dist/windows
 
     - name: Package Application for Linux
-      run:  make build_lnx
+      run: |
+        make clean
+        make build_lnx
 
     - uses: actions/upload-artifact@v2
       with:
         name: Linux Binary
-        path: _dist_out/lnx/
+        path: ./_dist_out/lnx/
