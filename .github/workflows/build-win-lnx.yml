@@ -27,11 +27,18 @@ jobs:
         make _dist_out
         cp -t "_dist_out/win/" "dist/windows/"*
         mv "_dist_out/win/__main__.exe" "_dist_out/win/wintraceroute.exe"
+        zip "_dist_out/win/wintraceroute-windows-x64-binary.zip" "_dist_out/win/"*
 
     - uses: actions/upload-artifact@v2
       with:
         name: Windows Standalone Binary
         path: ./_dist_out/win/
+
+    - uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: "_dist_out/win/wintraceroute-windows-x64-binary.zip"
+        draft: true
 
   build-lnx:
 
@@ -57,8 +64,15 @@ jobs:
     - name: Package Application for Linux
       run: |
         make build_lnx
+        zip "_dist_out/lnx/wintraceroute-linux-x64-binary.zip" "_dist_out/lnx/"*
 
     - uses: actions/upload-artifact@v2
       with:
         name: Linux Binary
         path: ./_dist_out/lnx/
+
+    - uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: "_dist_out/lnx/wintraceroute-linux-x64-binary.zip"
+        draft: true
