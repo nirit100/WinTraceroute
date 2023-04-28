@@ -27,7 +27,7 @@ jobs:
         make _dist_out
         cp -t "_dist_out/win/" "dist/windows/"*
         mv "_dist_out/win/__main__.exe" "_dist_out/win/wintraceroute.exe"
-        zip "_dist_out/win/wintraceroute-windows-x64-binary.zip" "_dist_out/win/"*
+        zip -j "_dist_out/win/wintraceroute-windows-x64-binary.zip" "_dist_out/win/"*
 
     - uses: actions/upload-artifact@v2
       with:
@@ -64,7 +64,7 @@ jobs:
     - name: Package Application for Linux
       run: |
         make build_lnx
-        zip "_dist_out/lnx/wintraceroute-linux-x64-binary.zip" "_dist_out/lnx/"*
+        zip -j "_dist_out/lnx/wintraceroute-linux-x64-binary.zip" "_dist_out/lnx/"*
 
     - uses: actions/upload-artifact@v2
       with:
