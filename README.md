@@ -55,7 +55,7 @@ You may also want to head over to [this project on PyPI](https://pypi.org/projec
 These binaries are just plain and simple unsigned builds using PyInstaller.
 They *don't* require a local Python environment, so this is the easiest way of running this program if you're on Windows and just want a simple `.exe` file.
 
-**You can download it from the *Assets* section in the [latest Release](https://github.com/NiRit100/WinTraceroute/).**
+**You can download it from the *Assets* section in the [latest Release](https://github.com/NiRit100/WinTraceroute/releases/latest).**
 
 ### Linux Binary
 
