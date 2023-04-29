@@ -5,6 +5,9 @@ from scapy.plist import SndRcvList, PacketList
 from scapy.all import IP, UDP, ICMP, sr1
 
 
+PRINT_FILE = sys.stdout
+
+
 def trace(host:str,
           IP_PACKET_SUPPLIER=Callable[[str,str,int],Any],
           DATAGRAM_SUPPLIER=Callable[[int],Any],
@@ -29,7 +32,8 @@ def trace(host:str,
         ttl_responses = list()
         ttl_times = list()
         # print ttl index
-        print(' ', f_ttl_str_format.format(ttl), "\t",  sep='', end='')
+        print(' ', f_ttl_str_format.format(ttl), "\t",  sep='', end='', \
+                file=PRINT_FILE)
         for _ in range(num_per_fleet):
             # this is for each packet in the fleet (3 by default)
             packet = IP_PACKET_SUPPLIER(host, source, ttl) / \
@@ -117,20 +121,20 @@ def summarize_ttl(responses:list, times:list,
     is_first_line = True
     for host in sorted_responses.keys():
         if is_first_line:
-            print(firstline_pfx, end='')
+            print(firstline_pfx, end='', file=PRINT_FILE)
         else:
-            print(restlines_pfx, end='')
+            print(restlines_pfx, end='', file=PRINT_FILE)
         indices = sorted_responses[host]
         for i in range(0, fleetsize):
             if i in indices:
                 time = times[i]
                 if time == None:
-                    print(' '*(time_str_width-4) + '*   ' + '\t', end='')
+                    print(' '*(time_str_width-4) + '*   ' + '\t', end='', file=PRINT_FILE)
                 else:
-                    print(time_str_format.format(time) + '\t', end='')
+                    print(time_str_format.format(time) + '\t', end='', file=PRINT_FILE)
             else:
-                print(' '*time_str_width + '\t', end='')
-        print(host)
+                print(' '*time_str_width + '\t', end='', file=PRINT_FILE)
+        print(host, file=PRINT_FILE)
         is_first_line = False
 
 def is_dest_reached(responses:list[tuple[SndRcvList,PacketList]], dest):
@@ -144,15 +148,18 @@ def is_dest_reached(responses:list[tuple[SndRcvList,PacketList]], dest):
     return False
 
 def summarize_termination(host, times, ttl, dest_reached):
-    print()
+    print(file=PRINT_FILE)
     if dest_reached:
         print("Destination '" + host + "' reached " + \
             " in RTT " + summarize_times(times, as_string=True) + " ms " + \
-            " via " + str(ttl) + " hops.")
+            " via " + str(ttl) + " hops.", \
+            file=PRINT_FILE)
     else:
-        print("Maximum TTL reached, but no '" + host + "' in sight. Aborting.")
+        print("Maximum TTL reached, but no '" + host + "' in sight. Aborting.", \
+            file=PRINT_FILE)
         print("If you wish to continue the search, consider increasing the `--maxttl`\n" + \
-            "  setting on the next try. Besides that, try a different `--module`, maybe?")
+            "  setting on the next try. Besides that, try a different `--module`, maybe?", \
+            file=PRINT_FILE)
 
 def summarize_times(times:list,
                     as_string:bool=False):
