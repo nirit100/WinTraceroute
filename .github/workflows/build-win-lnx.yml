@@ -99,6 +99,6 @@ jobs:
         python3 -m pip install -r requirements.txt
         python3 -m pip install --upgrade twine
 
-    - name: Package Application for PyPI
+    - name: Package Application for PyPI and Upload
       run: |
         PYPI_UNAME="${{secrets.PYPI_UNAME}}" PYPI_PASSWD="${{secrets.PYPI_PASSWD}}" make upload_pypi
