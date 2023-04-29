@@ -1,4 +1,4 @@
-from signal import signal, SIGINT, SIGKILL, SIGABRT, SIGTERM
+from signal import signal, SIGINT
 from sys import exit
 import argparse
 from traceroute.traceroute import trace_udp, trace_icmp
