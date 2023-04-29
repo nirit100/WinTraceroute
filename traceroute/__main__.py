@@ -1,3 +1,5 @@
+from signal import signal, SIGINT, SIGKILL, SIGABRT, SIGTERM
+from sys import exit
 import argparse
 from traceroute.traceroute import trace_udp, trace_icmp
 
@@ -87,4 +89,16 @@ def main() -> int:
             print('Module ' + args.module + ' is not supported.')
 
 
-main()
+def term_handler(signal_received, frame) -> None:
+    print()
+    print("-- Cancelled by signal " + str(signal_received) + ".")
+    exit(-1)
+
+
+signal(SIGINT, term_handler)
+#signal(SIGKILL, term_handler)
+#signal(SIGABRT, term_handler)
+#signal(SIGTERM, term_handler)
+
+if __name__ == '__main__':
+    main()
