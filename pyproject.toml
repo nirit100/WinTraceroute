@@ -46,4 +46,4 @@ push = true
 ]
 
 [project.scripts]
-wintraceroute = "traceroute.__main__:main"
+wintraceroute = "traceroute"
