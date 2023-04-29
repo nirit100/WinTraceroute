@@ -17,7 +17,7 @@ classifiers = [
 ]
 keywords = ["traceroute", "tracert", "network", "routing", "scapy"]
 dependencies = [
-    "scapy=2.5.0"
+    "scapy==2.5.0"
 ]
 requires-python = ">=3.9"
 
@@ -44,3 +44,6 @@ push = true
     'current_version = "{version}"',
     'version = "{version}"',
 ]
+
+[project.scripts]
+wintraceroute = "traceroute.__main__:main"

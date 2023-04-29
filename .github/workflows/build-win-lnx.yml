@@ -76,3 +76,28 @@ jobs:
       with:
         files: "_dist_out/lnx/wintraceroute-linux-x64-binary.zip"
         draft: true
+
+  build-pypi:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - uses: actions/checkout@v3
+
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        # Semantic version range syntax or exact version of a Python version
+        python-version: '3.11'
+        # Optional - x64 or x86 architecture, defaults to x64
+        architecture: 'x64'
+
+    - name: Install dependencies
+      run: |
+        python3 -m pip install --upgrade pip
+        python3 -m pip install -r requirements.txt
+
+    - name: Package Application for PyPI
+      run: |
+        PYPI_UNAME="${{secrets.PYPI_UNAME}}" PYPI_PASSWD="${{secrets.PYPI_PASSWD}}" make upload_pypi
