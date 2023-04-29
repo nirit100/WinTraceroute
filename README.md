@@ -63,9 +63,9 @@ You can **build a standalone binary from source**, if you like:
     * `make`
  * Download/clone the source code and change into the directory.
  * Install all necessary python dependies in your Python environment:
-    `pip install -r requirements.txt`
+    * `pip install -r requirements.txt`
  * Run `make build_lnx`
-   *(Note that the `clean` target might ask for your sudo password to delete everything from the `dist/` directory. If you're not okay with that, run the commands from the makefile yourself or consider installing via `pip` instead.)*
+    * *(Note that the `clean` target might ask for your sudo password to delete everything from the `dist/` directory. If you're not okay with that, run the commands from the makefile yourself or consider installing via `pip` instead.)*
  * You can find the output binary in the `_dist_out/lnx/` directory.
 
 Alternatively, if you want to go down the path of shame, a pre-compiled binary can be found in the release assets. It only depends on `glibc` so it is fairly portable for Linux standards, but this way of obtaining it is not recommended by any means.
@@ -74,10 +74,11 @@ Alternatively, if you want to go down the path of shame, a pre-compiled binary c
 
 You can also just run this program on your *Python 3.9* or newer environment from source by cloning/downloading the code, entering the directory and then running
  * `<your_python> -m traceroute`
-   ... where for example `<your_python>` == `python3`.
-   (Note: `traceroute` is the "traceroute" directory in the source, *not* `traceroute.py` within that directory!)
+    * ... where for example `<your_python>` == `python3`.
+    * Note: `traceroute` is the "traceroute" directory in the source, *not* `traceroute.py` within that directory!
 
 ## License
 
 This project is published under the GPL v2.0 license.
+
 Scapy, which this project uses, is published under the GPL v2.0 license, at the time of writing.
