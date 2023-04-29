@@ -57,6 +57,8 @@ You may also want to head over to [this project on PyPI](https://pypi.org/projec
 These binaries are just plain and simple unsigned builds using PyInstaller.
 They *don't* require a local Python environment, so this is the easiest way of running this program if you're on Windows and just want a simple `.exe` file.
 
+Make sure you have [Npcap](https://npcap.com/#download) or an alternative installed. 
+
 **You can download it from the *Assets* section in the [latest Release](https://github.com/NiRit100/WinTraceroute/releases/latest).**
 
 ### Linux Binary
@@ -65,6 +67,7 @@ You can **build a standalone binary from source**, if you like:
  * Install all necessary dependencies (if you don't have them already):
     * Python 3.9 or newer
     * `make`
+    * 
  * Download/clone the source code and change into the directory.
  * Install all necessary python dependies in your Python environment:
     * `pip install -r requirements.txt`
