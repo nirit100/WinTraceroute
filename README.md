@@ -67,7 +67,7 @@ You can **build a standalone binary from source**, if you like:
  * Install all necessary dependencies (if you don't have them already):
     * Python 3.9 or newer
     * `make`
-    * 
+    * `libpcap`
  * Download/clone the source code and change into the directory.
  * Install all necessary python dependies in your Python environment:
     * `pip install -r requirements.txt`
