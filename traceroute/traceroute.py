@@ -49,7 +49,7 @@ def trace(host:str,
         # print results
         summarize_ttl(ttl_responses, ttl_times,
                       restlines_pfx=(' '*(f_log10_maxttl+1))+'\t',
-                      time_str_format=f_time_str_format, 
+                      time_str_format=f_time_str_format,
                       time_str_width=f_time_str_width)
         # terminate if destination reached
         if is_dest_reached(ttl_responses, dest=host):
@@ -57,7 +57,7 @@ def trace(host:str,
             break
     # end of run -- maybe destination reached, maybe not.
     summarize_termination(host, ttl_times, ttl, dest_reached=dest_reached)
-        
+
     # return the records
     return (responses, times)
 
@@ -75,10 +75,10 @@ def trace_udp(host:str,
     datagram_supplier = \
         lambda port: \
             make_udp_packet(port=port) / get_junk(udp_length)
-    trace(host, ip_packet_supplier, datagram_supplier, 
-          min_ttl=min_ttl, max_ttl=max_ttl, num_per_fleet=num_per_fleet, 
+    trace(host, ip_packet_supplier, datagram_supplier,
+          min_ttl=min_ttl, max_ttl=max_ttl, num_per_fleet=num_per_fleet,
           timeout=timeout, port=port, source=source)
-        
+
 def trace_icmp(host:str,
                min_ttl:int=1,
                max_ttl:int=30,
@@ -92,8 +92,8 @@ def trace_icmp(host:str,
     datagram_supplier = \
         lambda port: \
             make_icmp_packet()  # ignore port on icmp
-    trace(host, ip_packet_supplier, datagram_supplier, 
-          min_ttl=min_ttl, max_ttl=max_ttl, num_per_fleet=num_per_fleet, 
+    trace(host, ip_packet_supplier, datagram_supplier,
+          min_ttl=min_ttl, max_ttl=max_ttl, num_per_fleet=num_per_fleet,
           timeout=timeout, port=port, source=source)
 
 
@@ -153,13 +153,13 @@ def summarize_termination(host, times, ttl, dest_reached):
         print("Maximum TTL reached, but no '" + host + "' in sight. Aborting.")
         print("If you wish to continue the search, consider increasing the `--maxttl`\n" + \
             "  setting on the next try. Besides that, try a different `--module`, maybe?")
-                
+
 def summarize_times(times:list,
                     as_string:bool=False):
     min = times[0]
     max = times[0]
     sum = times[0]
-    
+
     if len(times) > 1:
         for t in times[1:]:
             if t < min:
@@ -167,15 +167,15 @@ def summarize_times(times:list,
             if t > max:
                 max = t
             sum += t
-            
+
     avg = sum / len(times)
-    
+
     if as_string:
-        return "min. %.3f, avg. %.3f, max. %.3f" % (min, avg, max) 
+        return "min. %.3f, avg. %.3f, max. %.3f" % (min, avg, max)
     else:
         return (min, avg, max)
-    
-    
+
+
 def make_ip_packet(host:str, source:str, ttl:int):
     if source != None:
         packet = IP(dst=host, src=source, ttl=ttl)
