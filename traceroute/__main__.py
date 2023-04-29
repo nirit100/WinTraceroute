@@ -95,7 +95,7 @@ def term_handler(signal_received, frame) -> None:
     exit(-1)
 
 try:
-    # this only works on *nix
+    # this sometimes makes problems on windows
     signal(SIGINT, term_handler)
     #signal(SIGKILL, term_handler)
     #signal(SIGABRT, term_handler)
