@@ -42,7 +42,7 @@ See also the help page, available using the `-h` or `--help` option.
 
 The recommended way of installing this tool on any platform is via pip, but there are also standalone binaries available for Windows and can be built for Linux.
 
-:exclamation: You need to have a *Pcap provider* installed, for example libpcap on Linux or Npcap on Windows.  
+:exclamation: You need to have a *Pcap provider* installed, for example libpcap on Linux or Npcap on Windows. If you have Wireshark installed, for example, you almost certainly already have that.
 
 ### Via `pip` / from PyPI
 
