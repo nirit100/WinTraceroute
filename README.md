@@ -42,6 +42,8 @@ See also the help page, available using the `-h` or `--help` option.
 
 The recommended way of installing this tool on any platform is via pip, but there are also standalone binaries available for Windows and can be built for Linux.
 
+:exclamation: You need to have a *Pcap provider* installed, for example libpcap on Linux or Npcap on Windows.  
+
 ### Via `pip` / from PyPI
 
 If you are running *Python 3.9* or above, you may want to install WinTraceroute via `pip`. This also tries to register the `wintraceroute` command in your system.
