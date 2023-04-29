@@ -1,5 +1,7 @@
 # WinTraceroute
 
+[Quick link to the **Installation Instructions** for the impatient](#installation-andor-download)
+
 Provides a mostly *NIX-traceroute-like -- but very basic -- `tracert`/`traceroute` UDP/IPv4 alternative built on [scapy](https://scapy.net/). Available for Windows, Linux, Mac and everything else that runs Python3 and Scapy.
 
 The motivation for this small project was the differences in behaviour between Linux' `traceroute` and Windows' `tracert` commands, in particular that the Windows variant uses ICMP and therefore does not allow for a custom package size in the same way the Linux variant does.
