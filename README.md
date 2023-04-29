@@ -48,7 +48,7 @@ The recommended way of installing this tool on any platform is via pip, but ther
 
 If you are running *Python 3.9* or above, you may want to install WinTraceroute via `pip`. This also tries to register the `wintraceroute` command in your system.
 
-**Just run `pip install WinTraceroute` in your local Python environment.**
+**Just run `pip install WinTraceroute` in your local Python environment** and make sure you have a *Pcap provider* installed, for example libpcap on Linux or Npcap on Windows.
 
 You may also want to head over to [this project on PyPI](https://pypi.org/project/WinTraceroute/).
 
