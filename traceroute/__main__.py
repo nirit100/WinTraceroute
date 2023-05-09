@@ -65,29 +65,30 @@ def main() -> int:
     args = parser.parse_args()
 
     try:
-        match args.module:
-            case 'UDP':
-                print()
-                trace_udp(args.remote_host,
-                        udp_length=int(args.packet_length),
-                        min_ttl=int(args.minttl),
-                        max_ttl=int(args.maxttl),
-                        num_per_fleet=int(args.fleetsize),
-                        timeout=int(args.timeout),
-                        port=int(args.port),
-                        source=args.source)
-            case 'ICMP':
-                print("Note: ICMP mode is experimental.")
-                print()
-                trace_icmp(args.remote_host,
-                        min_ttl=int(args.minttl),
-                        max_ttl=int(args.maxttl),
-                        num_per_fleet=int(args.fleetsize),
-                        timeout=int(args.timeout),
-                        port=int(args.port),
-                        source=args.source)
-            case _:
-                print('Module ' + args.module + ' is not supported.')
+        # this once was a match statement, but not any more 
+        # since the language downgrade
+        if args.module == 'UDP':
+            print()
+            trace_udp(args.remote_host,
+                    udp_length=int(args.packet_length),
+                    min_ttl=int(args.minttl),
+                    max_ttl=int(args.maxttl),
+                    num_per_fleet=int(args.fleetsize),
+                    timeout=int(args.timeout),
+                    port=int(args.port),
+                    source=args.source)
+        elif args.module == 'ICMP':
+            print("Note: ICMP mode is experimental.")
+            print()
+            trace_icmp(args.remote_host,
+                    min_ttl=int(args.minttl),
+                    max_ttl=int(args.maxttl),
+                    num_per_fleet=int(args.fleetsize),
+                    timeout=int(args.timeout),
+                    port=int(args.port),
+                    source=args.source)
+        else:
+            print('Module ' + args.module + ' is not supported.')
         return 0
     except PermissionError:
         print("Error: Please run this program with higher privileges.")

@@ -137,7 +137,7 @@ def summarize_ttl(responses:list, times:list,
         print(host, file=PRINT_FILE)
         is_first_line = False
 
-def is_dest_reached(responses:list[tuple[SndRcvList,PacketList]], dest):
+def is_dest_reached(responses:list, dest):
     for rt in responses:
         if rt == None:
             continue
