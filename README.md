@@ -50,6 +50,8 @@ If you are running *Python 3.9* or above, you may want to install WinTraceroute 
 
 **Just run `pip install WinTraceroute` in your local Python environment** and make sure you have a *Pcap provider* installed, for example libpcap on Linux or Npcap on Windows.
 
+:information_source: Tip for *Linux/Debian* users: Use the `--system` pip option to install for all users, so that you don't have to install using `sudo`.
+
 You may also want to head over to [this project on PyPI](https://pypi.org/project/WinTraceroute/).
 
 ### Windows Binary
