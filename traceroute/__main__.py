@@ -1,5 +1,6 @@
 from signal import signal, SIGINT
-from sys import exit
+from sys import exit, \
+                version_info as py_version_info
 import argparse
 from traceroute.traceroute import trace_udp, trace_icmp
 
@@ -109,4 +110,13 @@ except ImportError:
     pass
 
 if __name__ == '__main__':
+    if py_version_info <= (3, 9):
+        print()
+        print()
+        print("NOTE: This software runs best under Python 3.9 and later.")
+        print("      It is currently running on Python " + str(py_version_info.major) + "." + str(py_version_info.minor) + ".")
+        print("      The program can still be executed, but it might show some\n      strange behaviour.")
+        input("  Press any key to continue.")
+        print("--- CONTINUING")
+        print()
     main()
