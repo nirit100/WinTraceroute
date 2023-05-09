@@ -63,7 +63,24 @@ def main() -> int:
         help="""module (or method) for traceroute
                 operations.
                 (default = UDP)""")
+    parser.add_argument('--no-legacy-python-notice', \
+                        dest='show_legacy_py_notice', \
+                        action='store_const', \
+                        const=False, default=True, \
+        help="""Disable the legacy python version notice.""")
     args = parser.parse_args()
+    
+    if args.show_legacy_py_notice and py_version_info <= (3, 9):
+        print()
+        print()
+        print("NOTE: This software runs best under Python 3.9 and later.")
+        print("      It is currently running on Python " + \
+            str(py_version_info.major) + "." + str(py_version_info.minor) + ".")
+        print("      The program can still be executed, but it might show some" \
+            "\n      strange behaviour.")
+        input("  Press any key to continue.")
+        print("--- CONTINUING")
+        print()
 
     try:
         # this once was a match statement, but not any more 
@@ -110,13 +127,4 @@ except ImportError:
     pass
 
 if __name__ == '__main__':
-    if py_version_info <= (3, 9):
-        print()
-        print()
-        print("NOTE: This software runs best under Python 3.9 and later.")
-        print("      It is currently running on Python " + str(py_version_info.major) + "." + str(py_version_info.minor) + ".")
-        print("      The program can still be executed, but it might show some\n      strange behaviour.")
-        input("  Press any key to continue.")
-        print("--- CONTINUING")
-        print()
     main()
