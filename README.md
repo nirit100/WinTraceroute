@@ -75,8 +75,6 @@ You can **build a standalone binary from source**, if you like:
     * *(Note that the `clean` target might ask for your sudo password to delete everything from the `dist/` directory. If you're not okay with that, run the commands from the makefile yourself or consider installing via `pip` instead.)*
  * You can find the output binary in the `_dist_out/lnx/` directory.
 
-Alternatively, if you want to go down the path of shame, a pre-compiled binary can be found in the release assets. It only depends on `glibc` so it is fairly portable for Linux standards, but this way of obtaining it is not recommended by any means.
-
 ### run directly from source
 
 You can also just run this program on your *Python 3.9* or newer environment from source by cloning/downloading the code, entering the directory and then running
