@@ -19,7 +19,7 @@ keywords = ["traceroute", "tracert", "network", "routing", "scapy"]
 dependencies = [
     "scapy==2.5.0"
 ]
-requires-python = ">=3.9"
+requires-python = ">=3.8"
 
 [project.optional-dependencies]
 dev = ["pip-tools", "pytest", "pyinstaller==5.10.1"]
