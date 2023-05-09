@@ -9,11 +9,11 @@ def main() -> int:
     epilog = """See also RFC2151 section 3.4 for a quick
                 read-up on traceroute."""
     parser = argparse.ArgumentParser(
-                    prog='traceroute',
-                    description="""Provides a mostly *NIX-traceroute-
-                    like -- but very basic -- tracert/traceroute IPv4
-                    alternative built on scapy.""",
-                    epilog=epilog)
+                prog='traceroute',
+                description="""Provides a mostly *NIX-traceroute-
+                like -- but very basic -- tracert/traceroute IPv4
+                alternative built on scapy.""",
+                epilog=epilog)
     parser.add_argument('remote_host', metavar='host', \
         help="""IP address or host name of the remote host
                 which is the destination of the route.""")
@@ -62,29 +62,28 @@ def main() -> int:
                 (default = UDP)""")
     args = parser.parse_args()
 
-    match args.module:
-        case 'UDP':
-            print()
-            trace_udp(args.remote_host,
-                udp_length=int(args.packet_length),
-                min_ttl=int(args.minttl),
-                max_ttl=int(args.maxttl),
-                num_per_fleet=int(args.fleetsize),
-                timeout=int(args.timeout),
-                port=int(args.port),
-                source=args.source)
-        case 'ICMP':
-            print("Note: ICMP mode is experimental.")
-            print()
-            trace_icmp(args.remote_host,
-                min_ttl=int(args.minttl),
-                max_ttl=int(args.maxttl),
-                num_per_fleet=int(args.fleetsize),
-                timeout=int(args.timeout),
-                port=int(args.port),
-                source=args.source)
-        case _:
-            print('Module ' + args.module + ' is not supported.')
+    if args.module == 'UDP':
+        print()
+        trace_udp(args.remote_host,
+            udp_length=int(args.packet_length),
+            min_ttl=int(args.minttl),
+            max_ttl=int(args.maxttl),
+            num_per_fleet=int(args.fleetsize),
+            timeout=int(args.timeout),
+            port=int(args.port),
+            source=args.source)
+    elif args.module == 'ICMP':
+        print("Note: ICMP mode is experimental.")
+        print()
+        trace_icmp(args.remote_host,
+            min_ttl=int(args.minttl),
+            max_ttl=int(args.maxttl),
+            num_per_fleet=int(args.fleetsize),
+            timeout=int(args.timeout),
+            port=int(args.port),
+            source=args.source)
+    else:
+        print('Module ' + args.module + ' is not supported.')
 
 
 main()
