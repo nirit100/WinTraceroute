@@ -213,7 +213,7 @@ def get_junk(length=2, kind='42'):
     elif kind == 'loremipsum':
         return lorem[0:length]
     elif kind == 'asc':
-        bytes_as_strs = [("%p" % (n%256)) for n in range(length)]
+        bytes_as_strs = [("%02x" % (n%256)) for n in range(length)]
         return Raw("".join(bytes_as_strs).decode('hex'))
     else:
         return ('invalid kind of junk! ' * (int(length / 20)) + 1)[0:length]
