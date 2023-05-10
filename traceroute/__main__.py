@@ -63,6 +63,11 @@ def main() -> int:
         help="""module (or method) for traceroute
                 operations.
                 (default = UDP)""")
+    parser.add_argument('-j', '--udp-junk', default='42', \
+                        choices=['42', 'zeros', '00', 'loremipsum', 'asc'],
+        help="""Contents of the to-be-sent UDP segments in UDP mode.
+                It has no further purpose than adding weight to the 
+                segments, but there are several available.""")
     parser.add_argument('--no-legacy-python-notice', \
                         dest='show_legacy_py_notice', \
                         action='store_const', \
@@ -94,6 +99,7 @@ def main() -> int:
                     num_per_fleet=int(args.fleetsize),
                     timeout=int(args.timeout),
                     port=int(args.port),
+                    udp_content=args.udp_junk,
                     source=args.source)
         elif args.module == 'ICMP':
             print("Note: ICMP mode is experimental.")
@@ -103,7 +109,6 @@ def main() -> int:
                     max_ttl=int(args.maxttl),
                     num_per_fleet=int(args.fleetsize),
                     timeout=int(args.timeout),
-                    port=int(args.port),
                     source=args.source)
         else:
             print('Module ' + args.module + ' is not supported.')

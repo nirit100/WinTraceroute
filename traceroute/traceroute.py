@@ -2,7 +2,8 @@ import sys, math
 from typing import Callable, Any
 from abc import ABC, abstractmethod
 from scapy.plist import SndRcvList, PacketList
-from scapy.all import IP, UDP, ICMP, sr1
+from scapy.all import IP, UDP, ICMP, Raw, sr1
+from traceroute.lorem import lorem
 
 
 PRINT_FILE = sys.stdout
@@ -72,13 +73,14 @@ def trace_udp(host:str,
               num_per_fleet:int=3,
               timeout:int=5,
               port:int=33434,
+              udp_content:str='asc',
               source:str=None):
     ip_packet_supplier = \
         lambda host, source, ttl: \
             make_ip_packet(host=host, source=source, ttl=ttl)
     datagram_supplier = \
         lambda port: \
-            make_udp_packet(port=port) / get_junk(udp_length)
+            make_udp_packet(port=port) / get_junk(udp_length, kind=udp_content)
     trace(host, ip_packet_supplier, datagram_supplier,
           min_ttl=min_ttl, max_ttl=max_ttl, num_per_fleet=num_per_fleet,
           timeout=timeout, port=port, source=source)
@@ -198,8 +200,20 @@ def make_icmp_packet():
     #return ICMP()
 
 
-def get_junk(length=2):
-    ret = "42" * int(length/2)
-    if length%2 != 0:
-        ret += "!"
-    return ret
+def get_junk(length=2, kind='42'):
+    if kind == '42':
+        ret = "42" * int(length/2)
+        if length%2 != 0:
+            ret += "!"
+        return ret
+    elif kind == 'zeros':
+        return Raw("\x00"*length)
+    elif kind == '00':
+        return "0"*length
+    elif kind == 'loremipsum':
+        return lorem[0:length]
+    elif kind == 'asc':
+        bytes_as_strs = [("%p" % (n%256)) for n in range(length)]
+        return Raw("".join(bytes_as_strs).decode('hex'))
+    else:
+        return ('invalid kind of junk! ' * (int(length / 20)) + 1)[0:length]
