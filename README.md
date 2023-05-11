@@ -84,7 +84,8 @@ You can **build a standalone binary from source**, if you like:
 You can also just run this program on your *Python 3.9* or newer environment from source by cloning/downloading the code, entering the directory and then running
  * `<your_python> -m traceroute`
     * ... where for example `<your_python>` == `python3`.
-    * Note: `traceroute` is the "traceroute" directory in the source, *not* `traceroute.py` within that directory!
+    * :information_source: Note: `traceroute` is the "traceroute" directory in the source, *not* `traceroute.py` within that directory!
+    * :exclamation: Make sure you type `traceroute`, not for example `traceroute/` with a slash. 
 
 ## License
 
