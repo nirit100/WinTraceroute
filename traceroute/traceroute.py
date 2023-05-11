@@ -1,4 +1,4 @@
-import sys, math
+import sys, math, random
 from typing import Callable, Any
 from abc import ABC, abstractmethod
 from scapy.plist import SndRcvList, PacketList
@@ -6,8 +6,8 @@ from scapy.all import IP, UDP, ICMP, Raw, sr1
 from traceroute.lorem import lorem
 
 
-PRINT_FILE = sys.stdout
-
+_WINTRACEROUTE_PRINT_FILE = sys.stdout
+_WINTRACEROUTE_IP_ID = 42
 
 def trace(host:str,
           IP_PACKET_SUPPLIER=Callable[[str,str,int],Any],
@@ -34,7 +34,7 @@ def trace(host:str,
         ttl_times = list()
         # print ttl index
         print(' ', f_ttl_str_format.format(ttl), "\t",  sep='', end='', \
-                file=PRINT_FILE)
+                file=_WINTRACEROUTE_PRINT_FILE)
         for _ in range(num_per_fleet):
             # this is for each packet in the fleet (3 by default)
             packet = IP_PACKET_SUPPLIER(host, source, ttl) / \
@@ -74,10 +74,15 @@ def trace_udp(host:str,
               timeout:int=5,
               port:int=33434,
               udp_content:str='asc',
-              source:str=None):
+              source:str=None,
+              ip_id_variation:bool=True):
+    
+    change_ip_id(True)
+    
     ip_packet_supplier = \
         lambda host, source, ttl: \
-            make_ip_packet(host=host, source=source, ttl=ttl)
+            make_ip_packet(host=host, source=source, 
+                           ttl=ttl, ip_id_variation=ip_id_variation)
     datagram_supplier = \
         lambda port: \
             make_udp_packet(port=port) / get_junk(udp_length, kind=udp_content)
@@ -91,10 +96,15 @@ def trace_icmp(host:str,
                num_per_fleet:int=3,
                timeout:int=5,
                port:int=33434,
-               source:str=None):
+               source:str=None,
+               ip_id_variation:bool=True):
+    
+    change_ip_id(True)
+        
     ip_packet_supplier = \
         lambda host, source, ttl: \
-            make_ip_packet(host=host, source=source, ttl=ttl)
+            make_ip_packet(host=host, source=source, 
+                           ttl=ttl, ip_id_variation=ip_id_variation)
     datagram_supplier = \
         lambda port: \
             make_icmp_packet()  # ignore port on icmp
@@ -123,20 +133,23 @@ def summarize_ttl(responses:list, times:list,
     is_first_line = True
     for host in sorted_responses.keys():
         if is_first_line:
-            print(firstline_pfx, end='', file=PRINT_FILE)
+            print(firstline_pfx, end='', file=_WINTRACEROUTE_PRINT_FILE)
         else:
-            print(restlines_pfx, end='', file=PRINT_FILE)
+            print(restlines_pfx, end='', file=_WINTRACEROUTE_PRINT_FILE)
         indices = sorted_responses[host]
         for i in range(0, fleetsize):
             if i in indices:
                 time = times[i]
                 if time == None:
-                    print(' '*(time_str_width-4) + '*   ' + '\t', end='', file=PRINT_FILE)
+                    print(' '*(time_str_width-4) + '*   ' + '\t', end='', 
+                          file=_WINTRACEROUTE_PRINT_FILE)
                 else:
-                    print(time_str_format.format(time) + '\t', end='', file=PRINT_FILE)
+                    print(time_str_format.format(time) + '\t', end='', 
+                          file=_WINTRACEROUTE_PRINT_FILE)
             else:
-                print(' '*time_str_width + '\t', end='', file=PRINT_FILE)
-        print(host, file=PRINT_FILE)
+                print(' '*time_str_width + '\t', end='', 
+                      file=_WINTRACEROUTE_PRINT_FILE)
+        print(host, file=_WINTRACEROUTE_PRINT_FILE)
         is_first_line = False
 
 def is_dest_reached(responses:list, dest):
@@ -150,18 +163,18 @@ def is_dest_reached(responses:list, dest):
     return False
 
 def summarize_termination(host, times, ttl, dest_reached):
-    print(file=PRINT_FILE)
+    print(file=_WINTRACEROUTE_PRINT_FILE)
     if dest_reached:
         print("Destination '" + host + "' reached " + \
             " in RTT " + summarize_times(times, as_string=True) + " ms " + \
             " via " + str(ttl) + " hops.", \
-            file=PRINT_FILE)
+            file=_WINTRACEROUTE_PRINT_FILE)
     else:
         print("Maximum TTL reached, but no '" + host + "' in sight. Aborting.", \
-            file=PRINT_FILE)
+            file=_WINTRACEROUTE_PRINT_FILE)
         print("If you wish to continue the search, consider increasing the `--maxttl`\n" + \
             "  setting on the next try. Besides that, try a different `--module`, maybe?", \
-            file=PRINT_FILE)
+            file=_WINTRACEROUTE_PRINT_FILE)
 
 def summarize_times(times:list,
                     as_string:bool=False):
@@ -185,11 +198,18 @@ def summarize_times(times:list,
         return (min, avg, max)
 
 
-def make_ip_packet(host:str, source:str, ttl:int):
+def make_ip_packet(host:str, source:str, ttl:int, ip_id_variation:bool):
+    if ip_id_variation:
+        change_ip_id()
     if source != None:
-        packet = IP(dst=host, src=source, ttl=ttl)
+        packet = IP(id=_WINTRACEROUTE_IP_ID, 
+                    dst=host, 
+                    src=source, 
+                    ttl=ttl)
     else:
-        packet = IP(dst=host, ttl=ttl)
+        packet = IP(id=_WINTRACEROUTE_IP_ID,
+                    dst=host, 
+                    ttl=ttl)
     return packet
 
 def make_udp_packet(port:int):
@@ -198,6 +218,15 @@ def make_udp_packet(port:int):
 def make_icmp_packet():
     return ICMP(type=8)
     #return ICMP()
+    
+
+def change_ip_id(first_time:bool=False):
+    global _WINTRACEROUTE_IP_ID
+    if first_time:
+        random.seed()
+    # the IP Identification field is 16 bits
+    _WINTRACEROUTE_IP_ID = random.randint(0, 2**16-1)
+    print(" --" + str(_WINTRACEROUTE_IP_ID) + "-- ")
 
 
 def get_junk(length=2, kind='42'):
@@ -216,4 +245,6 @@ def get_junk(length=2, kind='42'):
         byts = bytes([n%256 for n in range(length)])
         return Raw(byts)
     else:
-        return ('invalid kind of junk! ' * (int(length / 20)) + 1)[0:length]
+        junk_msg = 'invalid kind of junk! '
+        junk_msg_infl = junk_msg * (int(length / 20) + 1)
+        return junk_msg_infl[0:length]

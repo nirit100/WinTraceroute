@@ -65,15 +65,22 @@ def main() -> int:
                 (default = UDP)""")
     parser.add_argument('-j', '--udp-junk', default='42', \
                         choices=['42', 'zeros', '00', 'loremipsum', 'asc'],
-        help="""Contents of the to-be-sent UDP segments in UDP mode.
+        help="""contents of the to-be-sent UDP segments in UDP mode.
                 It has no further purpose than adding weight to the 
                 segments, but there are several available.""")
+    parser.add_argument('-i', '--no-ip-id-variation', \
+                        action='store_const', \
+                        const=True, default=False, \
+        help="""do *not* vary the IP segment 
+                'Identification' field.""")
     parser.add_argument('--no-legacy-python-notice', \
                         dest='show_legacy_py_notice', \
                         action='store_const', \
                         const=False, default=True, \
-        help="""Disable the legacy python version notice.""")
+        help="""disables the legacy python version notice.""")
     args = parser.parse_args()
+    
+    # TODO: make id vary by default and add switch to turn it off
     
     if args.show_legacy_py_notice and py_version_info <= (3, 9):
         print()
@@ -100,7 +107,8 @@ def main() -> int:
                     timeout=int(args.timeout),
                     port=int(args.port),
                     udp_content=args.udp_junk,
-                    source=args.source)
+                    source=args.source,
+                    ip_id_variation=(not args.no_ip_id_variation))
         elif args.module == 'ICMP':
             print("Note: ICMP mode is experimental.")
             print()
@@ -109,7 +117,8 @@ def main() -> int:
                     max_ttl=int(args.maxttl),
                     num_per_fleet=int(args.fleetsize),
                     timeout=int(args.timeout),
-                    source=args.source)
+                    source=args.source,
+                    ip_id_variation=(not args.no_ip_id_variation))
         else:
             print('Module ' + args.module + ' is not supported.')
         return 0
