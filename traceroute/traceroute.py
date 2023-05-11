@@ -226,7 +226,6 @@ def change_ip_id(first_time:bool=False):
         random.seed()
     # the IP Identification field is 16 bits
     _WINTRACEROUTE_IP_ID = random.randint(0, 2**16-1)
-    print(" --" + str(_WINTRACEROUTE_IP_ID) + "-- ")
 
 
 def get_junk(length=2, kind='42'):
