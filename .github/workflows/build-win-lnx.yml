@@ -71,11 +71,11 @@ jobs:
         name: Linux Binary
         path: ./_dist_out/lnx/
 
-    - uses: softprops/action-gh-release@v1
-      if: startsWith(github.ref, 'refs/tags/')
-      with:
-        files: "_dist_out/lnx/wintraceroute-linux-x64-binary.zip"
-        draft: true
+#    - uses: softprops/action-gh-release@v1
+#      if: startsWith(github.ref, 'refs/tags/')
+#      with:
+#        files: "_dist_out/lnx/wintraceroute-linux-x64-binary.zip"
+#        draft: true
 
   build-pypi:
 
