@@ -90,7 +90,7 @@ def main() -> int:
             str(py_version_info.major) + "." + str(py_version_info.minor) + ".")
         print("      The program can still be executed, but it might show some" \
             "\n      strange behaviour.")
-        input("  Press any key to continue.")
+        input("  Press ENTER to continue.")
         print("--- CONTINUING")
         print()
 
