@@ -158,9 +158,10 @@ def is_dest_reached(responses:list, dest):
             continue
         else:
             rt_icmp = rt[ICMP]
-            if rt_icmp.type == 3 or rt.src == dest:
-                return True  # Dest unreachable, port unavailable
-    return False
+            if rt_icmp.type != 3 and rt_icmp.code != 3: 
+                # NOT Dest unreachable, port unavailable
+                return False  
+    return True
 
 def summarize_termination(host, times, ttl, dest_reached):
     print(file=_WINTRACEROUTE_PRINT_FILE)
