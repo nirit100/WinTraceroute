@@ -57,7 +57,7 @@ def trace(host:str,
                       time_str_format=f_time_str_format,
                       time_str_width=f_time_str_width)
         # terminate if destination reached
-        if is_dest_reached(ttl_responses, dest=host):
+        if is_dest_reached(ttl_responses):
             dest_reached = True
             break
     # end of run -- maybe destination reached, maybe not.
@@ -152,14 +152,14 @@ def summarize_ttl(responses:list, times:list,
         print(host, file=_WINTRACEROUTE_PRINT_FILE)
         is_first_line = False
 
-def is_dest_reached(responses:list, dest):
+def is_dest_reached(responses:list): # TODO: make this as a parameter
     for rt in responses:
         if rt == None:
             continue
         else:
             rt_icmp = rt[ICMP]
-            if rt_icmp.type != 3 and rt_icmp.code != 3: 
-                # NOT Dest unreachable, port unavailable
+            if rt_icmp.type not in [0, 3]: 
+                # NOT Dest unreachable / echo response
                 return False  
     return True
 
