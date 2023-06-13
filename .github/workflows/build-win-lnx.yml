@@ -18,6 +18,14 @@ jobs:
     - name: remove 'hooksconfig' from .spec
       run:  make spec-remove-hooksconfig
 
+    - name: remove 'hooksconfig' from .spec
+      run: |  
+        make spec-remove-hooksconfig
+        
+    - name: Install dependencies
+      run: |
+        python3 -m pip install bumpver
+  
     - name: Package Application for Windows
       uses: NiRit100/pyinstaller-action-windows@0.1.1-a
       with:
@@ -60,6 +68,11 @@ jobs:
       run: |
         python3 -m pip install --upgrade pip
         python3 -m pip install -r requirements.txt
+    
+    - name: remove rc from version
+      run: |
+        eval $(bumpver show -n -e)
+        bumpver update --no-commit --no-push --no-fetch --set-version $MAJOR.$MINOR.$PATCH
 
     - name: Package Application for Linux
       run: |
@@ -99,6 +112,11 @@ jobs:
         python3 -m pip install --upgrade pip
         python3 -m pip install -r requirements.txt
         python3 -m pip install --upgrade twine
+      
+    - name: remove rc from version
+      run: |
+        eval $(bumpver show -n -e)
+        bumpver update --no-commit --no-push --no-fetch --set-version $MAJOR.$MINOR.$PATCH
 
 #    - name: Package Application for PyPI and Upload
 #      run: |
