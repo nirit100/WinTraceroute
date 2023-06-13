@@ -18,6 +18,10 @@ jobs:
     - name: remove 'hooksconfig' from .spec
       run: |  
         make spec-remove-hooksconfig
+        
+    - name: Install dependencies
+      run: |
+        python3 -m pip install bumpver
 
     - name: remove rc from version
       run: |
