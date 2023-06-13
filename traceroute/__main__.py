@@ -120,15 +120,14 @@ def term_handler(signal_received, frame) -> None:
     print()
     print("-- Cancelled by signal " + str(signal_received) + ".")
     exit(-1)
-
-try:
-    # this sometimes makes problems on windows
+    
+def bind_term_sig():
     signal(SIGINT, term_handler)
     #signal(SIGKILL, term_handler)
     #signal(SIGABRT, term_handler)
     #signal(SIGTERM, term_handler)
-except ImportError:
-    pass
+
 
 if __name__ == '__main__':
+    bind_term_sig()
     main()
