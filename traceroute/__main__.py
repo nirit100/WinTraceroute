@@ -1,6 +1,7 @@
 from signal import signal, SIGINT
 from sys import exit, \
                 version_info as py_version_info
+from os import environ
 import argparse
 from traceroute.traceroute import trace_udp, trace_icmp
 
@@ -9,6 +10,7 @@ def main() -> int:
     import logging
     logging.getLogger("scapy").setLevel(logging.WARNING)
 
+    # parse args
     epilog = """See also RFC2151 section 3.4 for a quick
                 read-up on traceroute."""
     parser = argparse.ArgumentParser(
@@ -77,22 +79,10 @@ def main() -> int:
                         dest='show_legacy_py_notice', \
                         action='store_const', \
                         const=False, default=True, \
-        help="""disables the legacy python version notice.""")
+        help="""Obsolete -- stays for compatibility.""")
     args = parser.parse_args()
     
     # TODO: make id vary by default and add switch to turn it off
-    
-    if args.show_legacy_py_notice and py_version_info <= (3, 9):
-        print()
-        print()
-        print("NOTE: This software runs best under Python 3.9 and later.")
-        print("      It is currently running on Python " + \
-            str(py_version_info.major) + "." + str(py_version_info.minor) + ".")
-        print("      The program can still be executed, but it might show some" \
-            "\n      strange behaviour.")
-        input("  Press ENTER to continue.")
-        print("--- CONTINUING")
-        print()
 
     try:
         # this once was a match statement, but not any more 
