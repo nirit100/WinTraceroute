@@ -153,14 +153,16 @@ def summarize_ttl(responses:list, times:list,
         is_first_line = False
 
 def is_dest_reached(responses:list): # TODO: make this as a parameter
+    # filter Nones -- not dest reached if no response at all
+    responses = [r for r in responses if r is not None]
+    if len(responses):
+        return False
+    # otherwise look for dest unreachable or echo response
     for rt in responses:
-        if rt == None:
-            continue
-        else:
-            rt_icmp = rt[ICMP]
-            if rt_icmp.type not in [0, 3]: 
-                # NOT Dest unreachable / echo response
-                return False  
+        rt_icmp = rt[ICMP]
+        if rt_icmp.type not in [0, 3]: 
+            # NOT Dest unreachable / echo response
+            return False  
     return True
 
 def summarize_termination(host, times, ttl, dest_reached):
