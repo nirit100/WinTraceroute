@@ -185,11 +185,14 @@ def summarize_times(times:list,
 
     if len(times) > 1:
         for t in times[1:]:
-            if t < min:
-                min = t
-            if t > max:
-                max = t
-            sum += t
+            if t == None:
+                continue
+            else:
+                if t < min:
+                    min = t
+                if t > max:
+                    max = t
+                sum += t
 
     avg = sum / len(times)
 
