@@ -155,7 +155,7 @@ def summarize_ttl(responses:list, times:list,
 def is_dest_reached(responses:list): # TODO: make this as a parameter
     # filter Nones -- not dest reached if no response at all
     responses = [r for r in responses if r is not None]
-    if len(responses):
+    if len(responses) == 0:
         return False
     # otherwise look for dest unreachable or echo response
     for rt in responses:
