@@ -183,10 +183,9 @@ def summarize_times(times:list,
     
     if len(times) == 0:
         if as_string:
-            "(no data)"
+            return "(no data)"
         else:
-            (-1, -1, -1)
-        return
+            return (-1, -1, -1)
     
     min = times[0]
     max = times[0]
