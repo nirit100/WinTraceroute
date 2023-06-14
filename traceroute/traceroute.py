@@ -179,20 +179,19 @@ def summarize_termination(host, times, ttl, dest_reached):
 
 def summarize_times(times:list,
                     as_string:bool=False):
+    times = [t for t in times if t is not None]
+    
     min = times[0]
     max = times[0]
     sum = times[0]
 
     if len(times) > 1:
         for t in times[1:]:
-            if t == None:
-                continue
-            else:
-                if t < min:
-                    min = t
-                if t > max:
-                    max = t
-                sum += t
+            if t < min:
+                min = t
+            if t > max:
+                max = t
+            sum += t
 
     avg = sum / len(times)
 
