@@ -181,6 +181,12 @@ def summarize_times(times:list,
                     as_string:bool=False):
     times = [t for t in times if t is not None]
     
+    if len(times) == 0:
+        if as_string:
+            "(no data)"
+        else:
+            (-1, -1, -1)
+    
     min = times[0]
     max = times[0]
     sum = times[0]
