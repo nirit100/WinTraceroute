@@ -7,6 +7,8 @@ from traceroute.traceroute import trace_udp, trace_icmp
 
 
 def main() -> int:
+    bind_term_sig()
+    
     import logging
     logging.getLogger("scapy").setLevel(logging.WARNING)
 
@@ -129,5 +131,4 @@ def bind_term_sig():
 
 
 if __name__ == '__main__':
-    bind_term_sig()
     main()
