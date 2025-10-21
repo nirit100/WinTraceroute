@@ -3,4 +3,4 @@ build
 wheel
 bumpver
 scapy==2.5.0
-pyinstaller==5.13.1
+pyinstaller==6.0.0
