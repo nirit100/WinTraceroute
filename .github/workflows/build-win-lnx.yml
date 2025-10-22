@@ -37,7 +37,7 @@ jobs:
         mv "_dist_out/win/__main__.exe" "_dist_out/win/wintraceroute.exe"
         zip -j "_dist_out/win/wintraceroute-windows-x64-binary.zip" "_dist_out/win/"*
 
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: Windows Standalone Binary
         path: ./_dist_out/win/
@@ -79,7 +79,7 @@ jobs:
         make build_lnx
         zip -j "_dist_out/lnx/wintraceroute-linux-x64-binary.zip" "_dist_out/lnx/"*
 
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: Linux Binary
         path: ./_dist_out/lnx/
@@ -128,7 +128,7 @@ jobs:
         make clean
         make build_py
 
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: Python Packages
         path: ./dist/
