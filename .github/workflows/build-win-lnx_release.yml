@@ -17,9 +17,9 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: remove 'hooksconfig' from .spec
-      run: |  
+      run: |
         make spec-remove-hooksconfig
-        
+
     - name: Install dependencies
       run: |
         python3 -m pip install bumpver
@@ -77,7 +77,7 @@ jobs:
       run: |
         eval $(bumpver show -n -e)
         bumpver update --no-commit --no-push --no-fetch --set-version $MAJOR.$MINOR.$PATCH
-  
+
     - name: Package Application for Linux
       run: |
         make build_lnx
@@ -117,7 +117,7 @@ jobs:
         python3 -m pip install -r requirements.txt
         python3 -m pip install bumpver
         python3 -m pip install --upgrade twine
-        
+
     - name: remove rc from version
       run: |
         eval $(bumpver show -n -e)
@@ -126,7 +126,7 @@ jobs:
     - name: Package Application for PyPI and Upload
       run: |
         make clean
-        PYPI_UNAME="${{secrets.PYPI_UNAME}}" PYPI_PASSWD="${{secrets.PYPI_PASSWD}}" make upload_pypi
+        make upload_pypi
 
     - uses: actions/upload-artifact@v4
       with:

@@ -26,7 +26,7 @@ build_py:	clean
 	python3 -m build
 
 upload_pypi:	build_py
-	twine upload dist/* -u "$(PYPI_UNAME)" -p "$(PYPI_PASSWD)" --non-interactive --disable-progress-bar --skip-existing --verbose
+	twine upload dist/* --non-interactive --disable-progress-bar --skip-existing --verbose
 
 spec-remove-hooksconfig:
 	sed -i '/hooksconfig/d' __main__.spec
